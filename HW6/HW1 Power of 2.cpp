@@ -13,7 +13,7 @@ int main(){
     showPowerOfTwo(numbers,SIZE);
 	return 0;
 }
-
+//SQRT
 void showPowerOfTwo(double numbers[],int size){
 	bool flag=false;
 	for(int i=0 ;i<SIZE;i++){

@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <math.h>  
 #include <string>  
-#define SIDE 3
+#define SIDE 10
 
 using namespace std;
 
