@@ -17,7 +17,7 @@ int main(){
 void showPowerOfTwo(double numbers[],int size){
 	bool flag=false;
 	for(int i=0 ;i<SIZE;i++){
-		if(sqrt(numbers[i])-(int)(sqrt(numbers[i]))==0 && numbers[i]>1){
+		if(sqrt(numbers[i])-(int)(sqrt(numbers[i]))==0 && numbers[i]>0){
 			cout<<numbers[i]<<endl;
 			flag=true;
 		}
