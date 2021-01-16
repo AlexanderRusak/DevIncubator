@@ -20,7 +20,7 @@ int main()
 
 int getMemberOfFibonacciSeries(int n)
 {
-    int bufferNumber, fibonacciNmuber = 0, prevFibonacciNumber = 1;
+    int bufferNumber, fibonacciNmuber = 1, prevFibonacciNumber = 0;
 
     if (n <= 1)
     {
@@ -31,16 +31,12 @@ int getMemberOfFibonacciSeries(int n)
 
     for (int i = 1; i < n; i++)
     {
-        if (n == 2)
-        {
-            fibonacciNmuber++;
-        }
-        else
-        {
+ 
+        
             bufferNumber = fibonacciNmuber;
             fibonacciNmuber = fibonacciNmuber + prevFibonacciNumber;
             prevFibonacciNumber = bufferNumber;
-        }
+        
     }
     showMessage(n, fibonacciNmuber);
 

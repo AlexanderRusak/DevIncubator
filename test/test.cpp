@@ -1,221 +1,151 @@
 #include <iostream>
-#include <cmath>
 using namespace std;
-int isCorrectInput(int value, char message[], char errorMessage[]);
-void electricityCounter();
-void elephants();
-int mutants(int m, int p, int n);
-void createChessBoard(char **chessboard, int sz);
-void showBoard(char **chessboard, int sz);
 
+#define USD_RATE 2.548
+#define EUR_RATE 3.103
+#define RUB_RATE 3.385
+
+void showMenu();
+double inputBYN(double byn);
+double convertToUSD(double byn);
+double convertToEUR(double byn);
+double convertToRUB(double byn);
+
+void showBalance(double byn, double rub, double usd, double eur);
+void showErrorMessage(double current);
 int main()
 {
-    setlocale(LC_ALL, "RUSSIAN");
-    //electricityCounter();
-    elephants();
-    //cout<<mutants(6,100,5);
+    int userChoise = 0; // user choice
+    double byn = 0.0;   // áåë âàëþòà
+    double usd = 0.0;
+    double eur = 0.0;
+    double rub = 0.0;
+    double exchanging = 0.0;
+
+    while (true)
+    {
+        showMenu();
+        cout << "Your choice? ";
+        cin >> userChoise;
+        if (userChoise == 1)
+        {
+            byn = inputBYN(byn);
+            cout << "Ok, " << byn << " BYN is receved." << endl;
+            showBalance(byn, rub, usd, eur);
+        }
+        else if (userChoise == 2)
+        {
+            exchanging = 0.0;
+            exchanging = convertToUSD(byn);
+            cout << "Ok, take your " << exchanging << " USD." << endl;
+            usd += exchanging;
+            byn -= exchanging * USD_RATE;
+            showBalance(byn, rub, usd, eur);
+            exchanging = 0.0;
+        }
+        else if (userChoise == 3)
+        {
+            exchanging = 0.0;
+            exchanging = convertToEUR(byn);
+            cout << "Ok, take your " << exchanging << " EUR." << endl;
+            eur += exchanging;
+            byn -= exchanging * EUR_RATE;
+            showBalance(byn, rub, usd, eur);
+            exchanging = 0.0;
+        }
+        else if (userChoise == 4)
+        {
+            exchanging = 0.0;
+            exchanging = convertToRUB(byn);
+            cout << "Ok, take your " << exchanging << " RUB." << endl;
+            rub += exchanging;
+            byn -= exchanging * RUB_RATE / 100;
+            showBalance(byn, rub, usd, eur);
+            exchanging = 0.0;
+        }
+        else if (userChoise == 5)
+            break;
+        else
+            cout << "Input [1..5], please" << endl
+                 << endl;
+    }
 
     return 0;
 }
 
-int isCorrectInput(int value)
+void showMenu()
 {
-
-    while (value < 1 || value > 8)
-    {
-        cin.clear();
-        fflush(stdin);
-        cout << "Îøèáêà" << endl;
-        cout << "Øàõìàòíàÿ äîñêà èìååò 8 êëåòîê" << endl;
-        cout << "Ââåäèòå çíà÷åíèå îò 1 äî 8:";
-        cin >> value;
-    }
-    return value;
+    cout << "1) Input BYN" << endl;
+    cout << "2) Convert to USD" << endl;
+    cout << "3) Convert to EUR" << endl;
+    cout << "4) Convert to RUB" << endl;
+    cout << "5) Exit" << endl;
 }
 
-void electricityCounter()
+double inputBYN(double byn)
 {
-    double value;
-    cout << "Ââåäèòå êîëè÷åñâî êÂò*÷:";
-    while (!(cin >> value))
+    double inputCountOfMoneyToChange;
+    cout << "Input how much BYN do you want to exchange? or input 0 for return to main menu ";
+    cin >> inputCountOfMoneyToChange;
+    while (byn + inputCountOfMoneyToChange < 0)
     {
-        cout << "Íåêîðåêòíûå äàííûå" << endl;
-        cout << "Ââåäèòå êîëè÷åñâî êÂò*÷:";
-        cin.clear();
-        fflush(stdin);
+        showErrorMessage(byn);
+        cin >> inputCountOfMoneyToChange;
     }
-    const double ELECTRICITY_COST = 0.25935;
-    cout << "Ñîèìîñòü: " << ELECTRICITY_COST * value << " áåë. ðóáëè" << endl;
-}
-void elephants()
-{
-    int size = 9;
-    int min = 1;
-    int x1, y1, x2, y2;
-    char **chessBoard = new char *[size];
-    for (int i = 0; i < size; i++)
-        chessBoard[i] = new char[size];
-    createChessBoard(chessBoard, size);
-    cout << "Ââåäèòå çíà÷åíèå õ1 îò 1 äî 8:";
-    cin >> x1;
-    x1 = isCorrectInput(x1);
-    cout << "Ââåäèòå çíà÷åíèå y2 îò 1 äî 8:";
-    cin >> y1;
-    y1 = isCorrectInput(y1);
-    cout << "Ââåäèòå çíà÷åíèå õ2 îò 1 äî 8:";
-    cin >> x2;
-    x2 = isCorrectInput(x2);
-    cout << "Ââåäèòå çíà÷åíèå y2 îò 1 äî 8:";
-    cin >> y2;
-    y2 = isCorrectInput(y2);
-    chessBoard[x1][y1] = 'F';
-    chessBoard[x2][y2] = 'S';
-    showBoard(chessBoard, size);
-    for (int i = x1, j = y1; i < size, j < size; i++, j++)
-    {
-        if (i == size or j == size)
-        {
-            break;
-        }
-        if (chessBoard[i][j] == 'S')
-        {
-            chessBoard[i][j] = 'S';
-            cout << "Goal!";
-        }
-        else
-        {
-            chessBoard[i][j] = 'F';
-        }
-    }
-    for (int i = x1, j = y1; i >= 1, j >= 1; i--, j--)
-    {
-
-        if (chessBoard[i][j] == 'S')
-        {
-            chessBoard[i][j] = 'S';
-            cout << "Goal!";
-        }
-        else
-        {
-            chessBoard[i][j] = 'F';
-        }
-        if (i == 1 or j == 1)
-        {
-            break;
-        }
-    }
-    for (int i = x1, j = y1; i < size, j >= 1; i++, j--)
-    {
-        if (i == size)
-        {
-            break;
-        }
-        if (chessBoard[i][j] == 'S')
-        {
-            chessBoard[i][j] = 'S';
-            cout << "Goal!";
-        }
-        else
-        {
-            chessBoard[i][j] = 'F';
-        }
-        if (j == 1)
-        {
-            break;
-        }
-    }
-    for (int i = x1, j = y1; j < size, i >= 1; i--, j++)
-    {
-        if (j == size)
-        {
-            break;
-        }
-        if (chessBoard[i][j] == 'S')
-        {
-            chessBoard[i][j] = 'S';
-            cout << "Goal!";
-        }
-        else
-        {
-            chessBoard[i][j] = 'F';
-        }
-        if (i == 1)
-        {
-            break;
-        }
-    }
-    cout << endl;
-    showBoard(chessBoard, size);
+    return byn + inputCountOfMoneyToChange;
 }
 
-int mutants(int m, int p, int n)
+double convertToUSD(double byn)
 {
-    int nights = 0;
-    int mutants_rest;
-    p = (double)p / 100;
-    double mutants_increment;
-    if ((m - n) > 0)
+    double inputCountOfMoneyToChange;
+    cout << "How much BYN do you want to exchange to USD? ";
+    cin >> inputCountOfMoneyToChange;
+    while (byn < inputCountOfMoneyToChange || inputCountOfMoneyToChange < 0)
     {
-        mutants_rest = m;
-        while (mutants_rest > 0)
-        {
-            nights++;
-            mutants_rest -= n;
-            if (mutants_rest <= 0)
-            {
-                return nights;
-            }
-            mutants_increment = ceil(mutants_rest + (mutants_rest * p));
-            cout << "Ïîñëå óíè÷òîæåíèÿ îñòàëîñü: " << mutants_rest << ","
-                 << "Ïîñëå ðàçìíîæåíèÿ: " << mutants_increment << endl;
-        }
+        showErrorMessage(byn);
+        cin >> inputCountOfMoneyToChange;
     }
-    else
-    {
-        return 1;
-    }
-
-    return nights;
+    return inputCountOfMoneyToChange / USD_RATE;
 }
-void createChessBoard(char **chessboard, int sz)
+
+double convertToEUR(double byn)
 {
-
-    for (int i = 0; i < sz; i++)
+    double inputCountOfMoneyToChange;
+    cout << "How much BYN do you want to exchange to EUR? ";
+    cin >> inputCountOfMoneyToChange;
+    while (byn < inputCountOfMoneyToChange || inputCountOfMoneyToChange < 0)
     {
-        for (int j = 0; j < sz; j++)
-        {
-
-            if ((j % 2 == 1 and i % 2 == 0) or (j % 2 == 0 and i % 2 == 1))
-            {
-                chessboard[i][j] = '#';
-            }
-            else if ((j % 2 == 0 and i % 2 == 0) or (j % 2 == 1 and i % 2 == 1))
-            {
-                chessboard[i][j] = ' ';
-            }
-            if (j == 0)
-            {
-                chessboard[i][j] = (i) + '0';
-            }
-            else if (i == 0)
-            {
-                chessboard[i][j] = (j) + '0';
-            }
-            if (j == 0 and i == 0)
-            {
-                chessboard[i][j] = ' ';
-            }
-        }
+        showErrorMessage(byn);
+        cin >> inputCountOfMoneyToChange;
     }
+    return inputCountOfMoneyToChange / EUR_RATE;
 }
-void showBoard(char **chessboard, int sz)
+
+double convertToRUB(double byn)
 {
-    for (int i = 0; i < sz; i++)
+
+    double inputCountOfMoneyToChange;
+    cout << "How much BYN do you want to exchange to RUB? ";
+    cin >> inputCountOfMoneyToChange;
+    while (byn < inputCountOfMoneyToChange || inputCountOfMoneyToChange < 0)
     {
-        for (int j = 0; j < sz; j++)
-        {
-            cout << chessboard[i][j];
-        }
-        cout << endl;
+        showErrorMessage(byn);
+        cin >> inputCountOfMoneyToChange;
     }
+    return inputCountOfMoneyToChange * 100 / RUB_RATE;
+}
+void showBalance(double byn, double rub, double usd, double eur)
+{
+    cout << "Your balance are:" << endl;
+    cout << "BYN: " << byn << endl;
+    cout << "USD: " << usd << endl;
+    cout << "EUR: " << eur << endl;
+    cout << "RUB: " << rub << endl
+         << endl;
+}
+void showErrorMessage(double current)
+{
+    cout << "Incorrect value!" << endl;
+    cout << "Your current balance is " << current << " BYN" << endl;
+    cout << "Input correct value or 0 for exit: ";
 }

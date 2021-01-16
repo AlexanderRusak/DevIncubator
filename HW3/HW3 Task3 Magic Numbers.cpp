@@ -96,12 +96,17 @@ int countOfDaysInAMounth(int mounth,int year){
 }
 int getMagicSum(int summedDate){
 	int magicSum=0;
-	while(summedDate!=0){
+	int magic=0;
+	while(summedDate!=0 ){
 		magicSum+=summedDate%10;
 		summedDate/=10;
 	}
+    while(magicSum!=0){
+    	magic+=magicSum%10;
+    	magicSum/=10;
+    }
 	
-	return magicSum;
+	return magic;
 }
 
 

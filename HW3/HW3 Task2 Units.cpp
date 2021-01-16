@@ -4,7 +4,7 @@ using namespace std;
 
 int getPositiveNumber(int number);
 void showNumbersOfBinaryUnits(int num);
-void convertToBinary(int decimalNumber);
+void showConvertToBinary(int decimalNumber);
 
 int main()
 {
@@ -31,7 +31,7 @@ int getPositiveNumber(int number)
     return number;
 }
 
-void convertToBinary(int decimalNumber)
+void showConvertToBinary(int decimalNumber)
 {
     string resultBinary, result;
     
@@ -65,7 +65,7 @@ void showNumbersOfBinaryUnits(int num)
         }
         cout << previousNumber << "<->";
         
-        convertToBinary(previousNumber);
+        showConvertToBinary(previousNumber);
     }
 }
 
