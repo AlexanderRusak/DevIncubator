@@ -1,9 +1,10 @@
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
-#include <math.h>  
 #include <string>  
-#define SIDE 10
+#include <time.h>  
+#include "windows.h"
+#define SIDE 3
 
 using namespace std;
 
@@ -11,16 +12,38 @@ void createPlayField(string array[][SIDE]);
 void showPlayField(string array[][SIDE]);
 void makeMove(string array[][SIDE]);
 void showMessage(string message);
-bool isDigit(char symbol);
+bool isEmptyField(string array[][SIDE], int move);
+void moveAI(string array[][SIDE]);
+bool isWin(string array[][SIDE]);
+
   
 int main(){
+	
     string field[SIDE][SIDE];
-    
+    int moves=SIDE*SIDE;
     createPlayField(field);
     showPlayField(field);
-    makeMove(field);
-    showPlayField(field);
-    
+    while(moves!=0){
+ 
+    	makeMove(field);
+    	moves--;
+    	showPlayField(field);
+    	if(isWin(field)){
+    		showMessage("You win!");
+    		return 1;
+    	}
+    	if(moves==0){
+    		break;
+    	}
+    	moveAI(field);
+    	showPlayField(field);
+    	moves--;
+    	if(isWin(field)){
+    		showMessage("AI win!");
+    		return 1;
+    	}
+    }
+    showMessage("Draw game");
 
 	return 0;
 }
@@ -49,47 +72,53 @@ void showPlayField(string array[][SIDE]){
 }
 void makeMove(string array[][SIDE]){
 	int move=0;
+	int moveCounter=0;
 	string cross="|X|";
 	showMessage("Please make your move: ");
 	cin>>move;
-
-	while(move<1 || move>9 || !isDigit(move+'/0' ) ){
+	while(move<1 || move>(SIDE*SIDE) ){
 		cin.clear();
         fflush(stdin);
-		showMessage("Error! Plese enter number form 1 to 9.");
+		showMessage("Error!");
 		cout<<endl;
 		showMessage("Please make your move: ");
 		cin>>move;
 	}
-	switch(move){
-		case 1:
-			array[2][0]=cross;
-			break;
-		case 2:
-			array[2][1]=cross;
-			break;
-		case 3:
-			array[2][2]=cross;
-			break;
-		case 4:
-			array[1][0]=cross;
-			break;
-		case 5:
-			array[1][1]=cross;
-			break;
-		case 6:
-			array[1][2]=cross;
-			break;
-		case 7:
-			array[0][0]=cross;
-			break;
-		case 8:
-			array[0][1]=cross;
-			break;
-		case 9:
-			array[0][2]=cross;
-			break;
-			
+	for(int i = 0; i < SIDE; i++){
+		for(int j = 0 ;j < SIDE; j++){
+			moveCounter++;
+			if(moveCounter==move && isEmptyField(array,move)){
+				array[i][j]=cross;
+			}else if(moveCounter==move && !isEmptyField(array,move)){
+				showMessage("Error! Already taken! ");
+				showMessage("\n");
+				showPlayField(array);
+				makeMove(array);
+			}
+
+		}
+	}
+	
+}
+
+void moveAI(string array[][SIDE]){
+	Sleep(1000);
+	srand(time (NULL));
+	int move=rand()%(SIDE*SIDE)+1;
+	cout<<move<<endl;
+	int moveCounter=0;
+	string zero="|0|";
+		for(int i = 0; i < SIDE; i++){
+		for(int j = 0 ;j < SIDE; j++){
+			moveCounter++;
+			if(moveCounter==move && isEmptyField(array,move)){
+				array[i][j]=zero;
+			}
+			else if(moveCounter==move && !isEmptyField(array,move) || move==0){
+				moveAI(array);
+			}
+
+		}
 	}
 	
 }
@@ -97,10 +126,84 @@ void makeMove(string array[][SIDE]){
 void showMessage(string message){
 	cout<<message;
 }
-bool isDigit(char symbol){
-	if(symbol < 47 || symbol > 58 ){
-    	return false;
+bool isEmptyField(string array[][SIDE], int move){
+		int moveCounter=0;
+		for(int i = 0; i < SIDE; i++){
+			for(int j = 0 ;j < SIDE; j++){
+				moveCounter++;
+				if(moveCounter==move &&(array[i][j]=="|X|" || array[i][j]=="|0|")){
+					return false;
+				}
+			}
 	}
 	return true;
 }
+bool isWin(string array[][SIDE]){
+	int counterX=0;
+	int counter0=0;
+	
+	for(int i = 0; i < SIDE; i++){
+		for(int j=0; j<SIDE ;j++){	
+			if(array[i][j]=="|X|"  ){
+				counterX++;
+			} else if(array[i][j]=="|0|"){
+				counter0++;				
+			}
+		}
 
+		if(counterX==3 || counter0==3){
+			return true;
+		}
+		counterX=0;
+		counter0=0;
+	}
+	for(int i = 0; i < SIDE; i++){
+	for(int j=0; j<SIDE ;j++){	
+			if(array[j][i]=="|X|"  ){
+				counterX++;
+			} else if(array[j][i]=="|0|"){
+				counter0++;				
+			}
+		}
+
+		if(counterX==3 || counter0==3){
+			return true;
+		}
+		counterX=0;
+		counter0=0;
+	}
+	for(int i = 0; i < SIDE; i++){
+		for(int j=0; j<SIDE ;j++){	
+			if(array[j][j]=="|X|"  ){
+				counterX++;
+			} else if(array[j][j]=="|0|"){
+				counter0++;				
+			}
+		}
+		
+		if(counterX==3 || counter0==3){
+			return true;
+		}
+		counterX=0;
+		counter0=0;
+	}
+	for(int i = 0; i < SIDE;){
+		for(int j=SIDE-1; j>=0 ;j--,i++){
+			if(array[i][j]=="|X|"  ){
+				counterX++;
+			} else if(array[i][j]=="|0|"){
+				counter0++;				
+			}
+			cout<<"i: "<<i<<" j: "<<j<<endl;
+		}
+		
+
+	//	cout<<"X: "<<counterX<<" 0: "<<counter0<<endl;
+		if(counterX==3 || counter0==3){
+			return true;
+		}
+		counterX=0;
+		counter0=0;
+	}
+	
+}

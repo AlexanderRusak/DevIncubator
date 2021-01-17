@@ -1,28 +1,34 @@
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
-#include <math.h>  
+#define LIMIT 100000
 #define SIZE 5
-
 using namespace std;
   
-void showPowerOfTwo(double numbers[],int size);
-  
+bool isPowerNumber(int number);
+void showNumbers(int array[]);
 int main(){
-    double numbers[SIZE]={1,4,1,3,11};
-    showPowerOfTwo(numbers,SIZE);
+    int numbers[SIZE]={-4,2,64,4,5};
+    showNumbers(numbers);
 	return 0;
 }
-//SQRT
-void showPowerOfTwo(double numbers[],int size){
-	bool flag=false;
-	for(int i=0 ;i<SIZE;i++){
-		if(sqrt(numbers[i])-(int)(sqrt(numbers[i]))==0 && numbers[i]>0){
-			cout<<numbers[i]<<endl;
-			flag=true;
+
+
+
+bool isPowerNumber(int number){
+	bool result=false;
+	for(int i = 0; i<=LIMIT; i++){
+		if(number==i*i){
+			return !result;
 		}
 	}
-	if(!flag){
-		cout<<"Not found!";
+	return result;
+	
+}
+void showNumbers(int array[]){
+	for(int i=0; i < SIZE; i++){
+		if(isPowerNumber(array[i])){
+			cout<<array[i]<<" ";
+		}
 	}
 }
