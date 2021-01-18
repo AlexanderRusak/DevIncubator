@@ -70,5 +70,5 @@ void showAllCoordinates(double array[]){
 double getTanAlpha( int height, int width){
 	double alpha;
 	alpha=height/width;
-	return alpha;
+     	return alpha;
 }
