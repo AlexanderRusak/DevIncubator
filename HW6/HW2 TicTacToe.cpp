@@ -105,7 +105,8 @@ void moveAI(string array[][SIDE])
 {
 
 	Sleep(1500);
-	srand(time(NULL));
+	
+   	srand(time(NULL));
 	
 	int move = rand() % (SIDE * SIDE) + 1;
 	int moveCounter = 0;
