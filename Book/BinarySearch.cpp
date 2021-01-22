@@ -15,7 +15,7 @@ int main(){
 int binary_search(int array_of_sorted_numbers[], int number, const int SZ){
 	
 	int min=0;
-	int max=SZ;
+	int max=SZ-1;  
 	int mid;
 
     while(min<=max){

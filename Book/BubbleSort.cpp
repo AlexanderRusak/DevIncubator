@@ -14,21 +14,13 @@ int main(){
 }
 
 
-int getSmllestIndexOfArr(int num[],int sz){
-	int smallest=num[1];
-	for(int i=1; i < sz; i++){
-		if(num[i]<smallest){
-			smallest=i;
-		}
-	}
-	return smallest;
-}  
 
-void bubbleSort(int arr[],int sz){
+
+void bubbleSort(int arr[],int size){
 	
 	int buf;
-	for(int i = 1; i < sz; i++){
-           for(int j=1; j < sz; j++){
+	for(int i = 1; i < size; i++){
+           for(int j=0; j < size; j++){
         		if(arr[j-1]>arr[j]){
         			buf=arr[j];
         			arr[j]=arr[j-1];
@@ -36,7 +28,7 @@ void bubbleSort(int arr[],int sz){
         		}
            }
 	}
-	for(int i=0;i<sz;i++){
+	for(int i=0;i<size;i++){
 		cout<<arr[i]<<endl;
 	}
 }  

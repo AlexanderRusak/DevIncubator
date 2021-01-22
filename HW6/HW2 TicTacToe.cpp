@@ -100,6 +100,7 @@ void makeMove(char*  array[][4])
 		for (int j = 0; j < SIDE; j++)
 		{
 			moveCounter++;
+			
 			if (moveCounter == move && isEmptyField(array, move))
 			{
 				array[i][j] = cross;
@@ -107,7 +108,8 @@ void makeMove(char*  array[][4])
 			else if (moveCounter == move && !isEmptyField(array, move))
 			{
 				showMessage("Error! Already taken! ");
-				showMessage("\n");
+				
+				cout<<endl;
 				
 				showPlayField(array);
 				
@@ -121,7 +123,6 @@ void moveAI(char*  array[][4])
 {
 
 	Sleep(1500);
-	
    	srand(time(NULL));
 	
 	int move = rand() % (SIDE * SIDE) + 1;
@@ -133,6 +134,7 @@ void moveAI(char*  array[][4])
 		for (int j = 0; j < SIDE; j++)
 		{
 			moveCounter++;
+			
 			if (moveCounter == move && isEmptyField(array, move))
 			{
 				array[i][j] = zero;
@@ -152,6 +154,7 @@ void showMessage(char* message)
 bool isEmptyField(char*  array[][4], int move)
 {
 	int moveCounter = 0;
+	
 	for (int i = 0; i < SIDE; i++)
 	{
 		for (int j = 0; j < SIDE; j++)
@@ -185,7 +188,7 @@ bool isMatchHorizontal(char*  array[][4])
 			{
 				counterX++;
 			}
-			else if (array[i][j] == "|0|")
+			if (array[i][j] == "|0|")
 			{
 				counter0++;
 			}
@@ -212,7 +215,7 @@ bool isMatchVertical(char*  array[][4])
 			{
 				counterX++;
 			}
-			else if (array[j][i] == "|0|")
+			if (array[j][i] == "|0|")
 			{
 				counter0++;
 			}
@@ -240,7 +243,7 @@ bool isMatchDiagonal(char*  array[][4])
 			{
 				counterX++;
 			}
-			else if (array[j][j] == "|0|")
+			if (array[j][j] == "|0|")
 			{
 				counter0++;
 			}
@@ -272,7 +275,8 @@ bool isMatchDiagonal(char*  array[][4])
 			return true;
 		}
 		counterX = 0;
-		counter0 = 0;
+		
+		counter0 = 0;    
 	}
 	return false;
 }
