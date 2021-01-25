@@ -18,7 +18,7 @@ using namespace std;
 
 int main()
 {
-    char* string="a3bcaaa";
+    char* string="a2bcaa3a";
     swapNumbers(string);
     
   
@@ -38,8 +38,8 @@ void swapNumbers(char* str){
    	cout<<length<<endl;
    	     if(isNumber(str[i])){
    	     	 count=str[i]-'0';
-   	     	 length+=count-1;
-   	     	 index+=count;
+   	     	 length+=count;
+   	     	 index+=count-1;
    	     	 cout<<count<<" "<<length<<" "<<index<<endl; 
    	     	for(int j = 0; j < count; j++){
    	     		if(isOdd(count)){
