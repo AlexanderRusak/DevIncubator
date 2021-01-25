@@ -6,12 +6,7 @@
 int strLength(char string[]);
 void strCopy(char s1[] , char s2[]);
 void strCat(char s1[], char s2[]);
-void swapNumbers(char* str);
 
-bool isNumber(char symbol);
-char* setRest(char str[], int index);
-bool isOdd(char number);
-char* changeNumberToSymbol(char number, bool isOdd);
 
 using namespace std;
 

@@ -18,7 +18,7 @@ using namespace std;
 
 int main()
 {
-    char* string="a2bcaaa";
+    char* string="a3bcaaa";
     swapNumbers(string);
     
   
@@ -133,3 +133,4 @@ void strCat(char s1[], char s2[])
         s1[size1+i] = s2[i];
     }
 }
+
