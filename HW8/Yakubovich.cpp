@@ -20,6 +20,8 @@ using namespace std;
 int main()
 {
     setlocale(LC_ALL, "Russian");
+    showMessage("Трансопртное стредство на руси!");
+    cout<<endl;
     char secretWord[] = "aaavtomobil";
     int size = strLength(secretWord);
     char hideLetters[] = "0";
