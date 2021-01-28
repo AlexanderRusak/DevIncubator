@@ -8,6 +8,7 @@ void initCube(int array[][SIZE][SIZE]);
 void showMessage(char msg[]);
 void showPlain(int array[][SIZE][SIZE]);
 void checkClearance(int array[][SIZE][SIZE]);
+
 using namespace std;
 
 int main()
