@@ -5,7 +5,7 @@ const qSort = (array) => {
     return array;
   }
 
-  let pivot = array[0]; //5
+  let pivot = array[0]; 
   let lessArr = [];
   let largerArr = [];
   for (let i = 1; i < array.length; i++) {
