@@ -20,7 +20,7 @@ int main()
 	double percent=0;
     char str[] = "The Java Tutorials are practical guides for programmers who want to use the Java programming language to create applications. They include hundreds of complete, working examples, and dozens of lessons. Groups of related lessons are organized into trails.";
     char fragment[] = "The Java programming language are practical guides for programmers. The Java Tutorials are organized into trails. Create applications include hundreds of complete. Groups of dozens of lessons.";
-    getResult(fragment, str, 6, percent);
+    getResult(fragment, str, 3, percent);
     cout<<"Text has unique "<<percent<<" percent"<<endl;
 
     return 0;
@@ -100,7 +100,9 @@ void getResult(char *fragment, char *text, int matchCount, double& unique)
     		splitString(copyFragment, j, matchCount);
 			if (isMatchString(copyText, copyFragment))
         	{
-        		iterationCount++;
+        		cout<<copyText<<endl;
+        		cout<<copyFragment<<endl;
+        		//iterationCount++;
             	result++;
         	}
         	strCopy(fragment, copyFragment);
@@ -172,9 +174,12 @@ void splitString(char *string, int startWordPosition, int count)
 }
 bool isMatchString(char *str1, char *str2)
 {
+	if(strLength(str1)!=strLength(str2)){
+		return false;
+	}
     for (int i = 0; str1[i] != '\0'; i++)
     {
-        if (str1[i] != str2[i])
+        if (str1[i] != str2[i] )
         {
             return false;
         }
