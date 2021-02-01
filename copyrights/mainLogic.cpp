@@ -18,9 +18,13 @@ double getUniquePercent(double match,double iterations);
 int main()
 {
 	double percent=0;
+	int shinglesCount=0;
+	cout<<"Input shingles count: ";
+	cin>>shinglesCount;
+	cout<<endl;
     char str[] = "The Java Tutorials are practical guides for programmers who want to use the Java programming language to create applications. They include hundreds of complete, working examples, and dozens of lessons. Groups of related lessons are organized into trails.";
     char fragment[] = "The Java programming language are practical guides for programmers. The Java Tutorials are organized into trails. Create applications include hundreds of complete. Groups of dozens of lessons.";
-    getResult(fragment, str, 3, percent);
+    getResult(fragment, str, shinglesCount, percent);
     cout<<"Text has unique "<<percent<<" percent"<<endl;
 
     return 0;
@@ -69,8 +73,8 @@ void showString(char *str)
 
 void getResult(char *fragment, char *text, int matchCount, double& unique)
 {
-    double result = 0;
-    double iterationCount = 0;
+    int i=0,j=0;
+	double result = 0, iterationCount = 0;
     setNormalizeText(text);
     setNormalizeText(fragment);
     
@@ -84,8 +88,7 @@ void getResult(char *fragment, char *text, int matchCount, double& unique)
     strCopy(text, copyText);
     strCopy(text, copyTextIteration);
 
-    int i=0;
-	int j=0;
+   
 	
     splitString(copyTextIteration,0,1);
     
@@ -100,9 +103,10 @@ void getResult(char *fragment, char *text, int matchCount, double& unique)
     		splitString(copyFragment, j, matchCount);
 			if (isMatchString(copyText, copyFragment))
         	{
-        		cout<<copyText<<endl;
-        		cout<<copyFragment<<endl;
-        		//iterationCount++;
+        		iterationCount++;
+        		//cout<<copyText<<endl;
+        		//cout<<copyFragment<<endl;
+ 
             	result++;
         	}
         	strCopy(fragment, copyFragment);
