@@ -1,91 +1,189 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#define SIZE 3
+#include <math.h>
+#include <cstdlib>
+#include <string>
 
-void initCube(int array[][SIZE][SIZE]);
-void showMessage(char msg[]);
-void showPlain(int array[][SIZE][SIZE]);
-void checkClearance(int array[][SIZE][SIZE]);
 using namespace std;
+
+void setNormalizeText(char *text);
+bool isCapitalLetter(char letter);
+void showString(char *str);
+void splitString(char *string, int startWordPosition, int count);
+bool isMatchString(char *str1, char *str2);
+void getResult(char *fragment, char *text, int matchCount);
+void strCopy(char s1[], char s2[]);
+int strLength(char string[]);
 
 int main()
 {
-
-    int arr[SIZE][SIZE][SIZE];
-
-    initCube(arr);
-    checkClearance(arr);
-    showPlain(arr);
+    char str[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt consectetur adipiscing elit";
+    char fragment[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
+    showString(str);
+    setNormalizeText(str);
+    setNormalizeText(fragment);
+    getResult(fragment, str, 5);
 
     return 0;
 }
 
-void showMessage(char msg[])
+void setNormalizeText(char *text)
 {
-    cout << msg << endl;
-}
+    int count = 0;
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        if ((text[i] > 96 && text[i] < 123) || (text[i] >= 65 && text[i] <= 90))
+        {
+            if (text[i] < 97 || text[i] > 123)
+            {
 
-void showPlain(int array[][SIZE][SIZE])
-{
-    for (int i = 0; i < SIZE; i++)
-    {
-        for (int j = 0; j < SIZE; j++)
-        {
-            for (int k = 0; k < SIZE; k++)
-            {
-                cout << (array[i][j][k]);
+                if (isCapitalLetter(text[i]))
+                {
+                    count++;
+
+                    text[i] += 32;
+                }
             }
-            cout << endl;
         }
-        cout << endl;
-    }
-}
-void initCube(int array[][SIZE][SIZE])
-{
-    srand(time(NULL));
-    for (int i = 0; i < SIZE; i++)
-    {
-        for (int j = 0; j < SIZE; j++)
+        else
         {
-            for (int k = 0; k < SIZE; k++)
-            {
-                array[i][j][k] = rand() % 2;
-            }
+            text[i] = ' ';
         }
     }
 }
-
-void checkClearance(int array[][SIZE][SIZE])
+bool isCapitalLetter(char letter)
 {
-    for (int i = 0; i < SIZE; i++)
+    if (letter >= 65 && letter <= 90)
     {
+        return true;
+    }
+    return false;
+}
+void showString(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        cout << str[i];
+    }
+    cout << endl;
+}
 
-        for (int x = 0; x < SIZE; x++)
+void getResult(char *fragment, char *text, int matchCount)
+{
+    int result = 0;
+    int iterationCount = 0;
+    char copyFragment[strLength(fragment) - 1];
+    char copyText[strLength(text) - 1];
+    strCopy(fragment, copyFragment);
+    strCopy(text, copyText);
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        iterationCount++;
+        splitString(copyText, i, matchCount);
+        splitString(copyFragment, i, matchCount);
+        if (isMatchString(copyText, copyFragment))
         {
-            for (int y = 0; y < SIZE; y++)
+            result++;
+        }
+        strCopy(fragment, copyFragment);
+        strCopy(text, copyText);
+    }
+    cout << result << " " << iterationCount;
+}
+
+void splitString(char *string, int startWordPosition, int count)
+{
+    char buf[256];
+    int length = 0;
+    int words = 0;
+    bool flag = false;
+    int i = 0, j = 0;
+    count += startWordPosition;
+    while (string[i] != '\0')
+    {
+        if (startWordPosition >= count)
+        {
+            break;
+        }
+        while (string[i] == ' ')
+        {
+            if (!flag)
             {
-                if (array[i][y][x] == 0)
-                    break;
-                if (y == SIZE - 1)
-                    showMessage("you can see the light");
+                words++;
             }
+            flag = true;
+            i++;
+        }
+        flag = false;
+        if (count == words)
+        {
+            break;
+        }
+        if (startWordPosition <= words)
+        {
+
+            buf[j] = string[i];
+            length++;
+            j++;
+        }
+
+        i++;
+    }
+    for (int i = 0; string[i] != '\0'; i++)
+    {
+        if (i < length)
+        {
+            string[i] = buf[i];
+        }
+        else
+        {
+            string[i] = '\0';
         }
     }
-
-    for (int i = 0; i < SIZE; i++)
+}
+bool isMatchString(char *str1, char *str2)
+{
+    for (int i = 0; str1[i] != '\0'; i++)
     {
-
-        for (int j = 0; j < SIZE; j++)
+        if (str1[i] != str2[i])
         {
-            for (int k = 0; k < SIZE; k++)
-            {
-                if (array[i][j][k] == 0)
-                    break;
-                if (k == SIZE - 1)
-                    showMessage("you can see the light");
-            }
+            return false;
         }
     }
+    return true;
+}
+
+void strCopy(char s1[], char s2[])
+{
+    int i = 0;
+    while (s1[i] != '\0')
+    {
+        s2[i] = s1[i];
+        i++;
+    }
+}
+int strLength(char string[])
+{
+    int counter = 0;
+
+    while (string[counter] != '\0')
+        counter++;
+
+    return counter;
+}
+bool isWordKey(char *str, int index)
+{
+    int words = 0;
+    bool flag = false;
+    while (str[i] != '\0')
+    {
+        if (!flag)
+        {
+
+            words++;
+        }
+        flag = true;
+        i++;
+    }
+    flag = false;
+}
 }

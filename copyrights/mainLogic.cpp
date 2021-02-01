@@ -104,8 +104,7 @@ void getResult(char *fragment, char *text, int matchCount, double& unique)
 			if (isMatchString(copyText, copyFragment))
         	{
         		iterationCount++;
-        		//cout<<copyText<<endl;
-        		//cout<<copyFragment<<endl;
+
  
             	result++;
         	}
